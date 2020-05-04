@@ -8,25 +8,36 @@ Project Overview :-
 
 -- > s3://udacity-dend/log_data: event data of service usage e.g. who listened what song, when, where, and with which client
 
+------------
+-- Summary---
+--------------
 Project builds an ETL pipeline (Extract, Transform, Load) to create the DB and tables in AWS Redshift cluster, fetch data from JSON files stored in AWS S3, process the data, and insert the data to AWS Redshift DB. As technologies, Project-3 uses python, SQL, AWS S3 and AWS Redshift DB.
 
-AWS Redshift set-up
+---------------------
+  AWS Redshift set-up
+----------------------
 AWS Redshift is used in ETL pipeline as the DB solution. Used set-up in the Project-3 is as follows:
 
 Cluster: 4x dc2.large nodes
 Location: US-West-2 (as Project-3's AWS S3 bucket)
 Staging tables
 
-Fact Table
+-------------
+  Fact Table
+-------------
 songplays: song play data together with user, artist, and song info (songplay_id, start_time, user_id, level, song_id, artist_id, session_id, location, user_agent)
-Dimension Tables
-users: user info (columns: user_id, first_name, last_name, gender, level)
-songs: song info (columns: song_id, title, artist_id, year, duration)
-artists: artist info (columns: artist_id, name, location, latitude, longitude)
-time: detailed time info about song plays (columns: start_time, hour, day, week, month, year, weekday)
 
+-------------------
+  Dimension Tables
+--------------------
+  users: user info (columns: user_id, first_name, last_name, gender, level)
+  songs: song info (columns: song_id, title, artist_id, year, duration)
+  artists: artist info (columns: artist_id, name, location, latitude, longitude)
+  time: detailed time info about song plays (columns: start_time, hour, day, week, month, year, weekday)
 
-Structure
+------------
+  Structure
+------------
 The project contains the following components:
 
 create_tables.py
@@ -37,20 +48,26 @@ sql_queries.py
   defines the SQL queries that underpin the creation of the star schema and ETL pipeline
 dws_redshift.ipynb 
   allows you to more interactively execute the ETL and run queries
-  
+
+------------------------
+ Steps in Pytohn Notebbook
+ --------------------------
 Run create_tables.py
-Type to command line:
+  -All tables are dropped.
+  -New tables are created: 2x staging tables + 4x dimensional tables + 1x fact table.
+  -Output: Script writes "Tables dropped successfully" and "Tables created successfully" if all tables were dropped and created
 
-python3 create_tables.py
-
-All tables are dropped.
-New tables are created: 2x staging tables + 4x dimensional tables + 1x fact table.
-Output: Script writes "Tables dropped successfully" and "Tables created successfully" if all tables were dropped and created without errors.
 Run etl.py
-Type to command line:
+  -Script executes AWS Redshift COPY commands to insert source data (JSON files) to DB staging tables.
+  -From staging tables, data is further inserted to analytics tables.
+  -Script writes to console the query it's executing at any given time and if the query was successfully executed.
+  -In the end, script tells if whole ETL-pipeline was successfully executed.
 
-python3 etl.py
+-- Clean Up process after
 
+-------------------
+  -- Overview ---
+---------------------
 Script executes AWS Redshift COPY commands to insert source data (JSON files) to DB staging tables.
 From staging tables, data is further inserted to analytics tables.
 Script writes to console the query it's executing at any given time and if the query was successfully executed.
