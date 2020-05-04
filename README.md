@@ -50,7 +50,7 @@ dws_redshift.ipynb
   allows you to more interactively execute the ETL and run queries
 
 ------------------------
- Steps in Pytohn Notebbook
+ Steps in Python Notebbook
  --------------------------
 Run create_tables.py
   -All tables are dropped.
